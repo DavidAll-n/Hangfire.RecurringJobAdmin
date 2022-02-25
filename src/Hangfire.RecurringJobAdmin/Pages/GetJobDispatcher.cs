@@ -7,8 +7,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,6 +42,7 @@ namespace Hangfire.RecurringJobAdmin.Pages
             {
                 recurringJob.ForEach((x) =>
                 {
+                    var jobDisplayNameAttribute = x.Job.Method.GetCustomAttribute<JobDisplayNameAttribute>();
                     periodicJob.Add(new PeriodicJob
                     {
                         Id = x.Id,
@@ -55,7 +58,8 @@ namespace Hangfire.RecurringJobAdmin.Pages
                         LastJobState = x.LastJobState,
                         NextExecution = x.NextExecution.HasValue ? x.NextExecution.Value.ChangeTimeZone(x.TimeZoneId).ToString("G") : "N/A",
                         Removed = x.Removed,
-                        TimeZoneId = x.TimeZoneId
+                        TimeZoneId = x.TimeZoneId,
+                        Name = jobDisplayNameAttribute.Format(null, x.Job)
                     });
                 });
             }

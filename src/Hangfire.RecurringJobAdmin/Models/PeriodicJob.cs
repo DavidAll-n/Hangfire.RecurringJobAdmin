@@ -30,6 +30,7 @@ namespace Hangfire.RecurringJobAdmin.Models
         public bool Removed { get; set; }
         public string TimeZoneId { get; set; }
         public string Error { get; set; }
+        public string Name { get; set; }
     }
 
 }

@@ -1,12 +1,25 @@
 ﻿/** Main */
 #app {
     position: relative !important;
-    left: -229px !important;
+    /*left: -229px !important;*/
+    display: flex;
+}
+
+#app > div {
+    width: 100%;
 }
 
 #app > div > div {
     margin-top: 30px !important;
-    width: 1626px !important
+    /*width: 1626px !important*/
+}
+
+.table {
+    table-layout: fixed;
+}
+
+.table td {
+    word-wrap: break-word;
 }
 
 /* Modal */

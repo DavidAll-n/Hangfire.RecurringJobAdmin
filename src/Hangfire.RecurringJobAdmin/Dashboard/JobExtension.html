@@ -105,18 +105,21 @@
     <div class="row">
         <div class="col-md-12" style="margin-top: 30px">
             <h1 class="page-header">Recurring Jobs <span class="badge badge-warning">{{getItems.length}}</span></h1>
-            <button type="button" class="btn btn-primary" style="margin-bottom: 20px;" @click="OpenModal">Add new Job</button>
+            <div style="display: flex;justify-content: space-between">
+                <button type="button" class="btn btn-primary" style="margin-bottom: 20px;" @click="OpenModal">Add new Job</button>
+                <div>
+                    <input v-model="searchTerm" type="text" style="max-width: 30rem;" class="form-control" placeholder="Search jobs..." />
+                </div>
+            </div>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-responsive table-sm">
 
                     <thead>
                         <tr>
                             <th>Id</th>
                             <th>Cron</th>
-                            <th>Queue</th>
                             <th>State</th>
-                            <th>Class</th>
-                            <th>Method</th>
+                            <th>Name</th>
                             <th>TimeZone</th>
                             <th>Last Execution</th>
                             <th>Next Execution</th>
@@ -126,29 +129,23 @@
                     <tbody>
                         <tr v-for="job in getItems">
                             <td>{{job.Id}}</td>
-                            <td>{{job.Cron}}</td>
-                            <td>{{job.Queue}}</td>
+                            <td><code>{{job.Cron}}</code></td>
                             <td>
                                 <span v-if="job.JobState == 'Running'" class="label label-success">{{job.JobState}}</span>
                                 <span v-if="job.JobState == 'Stopped'" class="label label-danger">{{job.JobState}}</span>
                             </td>
-                            <td>{{job.Class}}</td>
-                            <td>{{job.Method}}</td>
+                            <td>
+                                {{job.Name}}
+                            </td>
                             <td>{{job.TimeZoneId}}</td>
                             <td>
-                                <button type="button" class="btn btn-primary">
-                                    {{getTime(job.LastExecution)}}&nbsp;&nbsp;
-                                    <span class="badge" style="width: 124px;">{{capitalizeString(dayjs().from(dayjs(job.LastExecution)))}}</span>
-                                </button>
+                                {{getTime(job.LastExecution)}}
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary">
-                                    {{getTime(job.NextExecution)}}&nbsp;&nbsp;
-                                    <span class="badge" style="width: 124px;">{{capitalizeString(dayjs().to(dayjs(job.NextExecution)))}}</span>
-                                </button>
+                                {{getTime(job.NextExecution)}}
                             </td>
                             <td>
-                                <button type="button" class="btn btn-warning" style="padding-top: 10px; margin-right: 5px;">
+                                <button type="button" class="btn" style="padding-top: 10px;">
                                     <svg width="18px" height="18px" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" @click="GetJob(job.Id)">
                                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
                                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
@@ -206,6 +203,7 @@
             return {
                 title: 'Add New Job',
                 jobs: null,
+                searchTerm: '',
                 showModal: false,
                 errors: [],
                 timeZones: [],
@@ -225,12 +223,23 @@
             }
         },
         methods: {
+            filterJobs(searchTerm) {
+                if (this.jobs === null) {
+                    return null;
+                }
+                return this.jobs.filter(x =>
+                    x.Id.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1
+                    || x.Name.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1
+                );
+            },
             addJob() {
                 this.UpdateJob(this.job);
             },
             GetJobs() {
                 axios.get('JobConfiguration/GetJobs')
-                    .then(res => (this.jobs = res.data))
+                    .then(res => {
+                        this.jobs = res.data
+                    })
             },
             GetJob(_Id) {
                 this.title = 'Edit Job';
@@ -370,7 +379,7 @@
                     this.errors.push("Class is required.");
                 }
                 if (!this.job.Method) {
-                    this.errors.push("Methodo is required.");
+                    this.errors.push("Method is required.");
                 }
                 if (!this.job.Queue) {
                     this.errors.push("Queue is required.");
@@ -386,7 +395,7 @@
                 return s.charAt(0).toUpperCase() + s.slice(1);
             },
             getTime(date) {
-                return dayjs(date).format('hh:mm:ss A');
+                return dayjs(date).isValid() ? dayjs(date).format('MMM DD, YYYY, hh:mm A') : 'N/A';
             },
             clickCallbackPagination(pageNum) {
                 this.pagination.currentPage = Number(pageNum);
@@ -397,14 +406,18 @@
             this.GetJobs();
         },
         computed: {
+            filteredJobs: function () {
+                return this.filterJobs(this.searchTerm);
+            },
             getItems: function () {
                 let current = this.pagination.currentPage * this.pagination.parPage;
                 let start = current - this.pagination.parPage;
-                if (this.jobs != null) return this.jobs.slice(start, current);
+                let jobs = this.filteredJobs;
+                if (jobs != null) return jobs.slice(start, current);
                 else return null;
             },
             getPageCount: function () {
-                return Math.ceil(this.jobs.length / this.pagination.parPage);
+                return Math.ceil(this.filteredJobs.length / this.pagination.parPage);
             }
         }
     });
