@@ -107,9 +107,17 @@
             <h1 class="page-header">Recurring Jobs <span class="badge badge-warning">{{getItems.length}}</span></h1>
             <div style="display: flex;justify-content: space-between">
                 <button type="button" class="btn btn-primary" style="margin-bottom: 20px;" @click="OpenModal">Add new Job</button>
-                <div>
-                    <input v-model="searchTerm" type="text" style="max-width: 30rem;" class="form-control" placeholder="Search jobs..." />
-                </div>
+                <input v-model="searchTerm" type="text" style="max-width: 30rem;" class="form-control" placeholder="Search jobs..." />
+            </div>
+            <div class="pagination-btn-group">
+                <small>Items Per Page:</small>
+                <button class="pagination-btn" v-bind:class="{selected:pagination.perPage == 10}" @click="setPerPage(10)">10</button>
+                <button class="pagination-btn" v-bind:class="{selected:pagination.perPage == 20}" @click="setPerPage(20)">20</button>
+                <button class="pagination-btn" v-bind:class="{selected:pagination.perPage == 50}" @click="setPerPage(50)">50</button>
+                <button class="pagination-btn" v-bind:class="{selected:pagination.perPage == 100}" @click="setPerPage(100)">100</button>
+                <button class="pagination-btn" v-bind:class="{selected:pagination.perPage == 500}" @click="setPerPage(500)">500</button>
+                <button class="pagination-btn" v-bind:class="{selected:pagination.perPage == 1000}" @click="setPerPage(1000)">1000</button>
+                <button class="pagination-btn" v-bind:class="{selected:pagination.perPage == 5000}" @click="setPerPage(5000)">5000</button>
             </div>
             <div class="table-responsive">
                 <table class="table table-responsive table-sm">
@@ -217,7 +225,7 @@
                     JobState: ''
                 },
                 pagination: {
-                    parPage: 10,
+                    perPage: 10,
                     currentPage: 1
                 }
             }
@@ -231,6 +239,9 @@
                     x.Id.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1
                     || x.Name.toLocaleLowerCase().indexOf(searchTerm.toLocaleLowerCase()) > -1
                 );
+            },
+            setPerPage(perPage) {
+                this.pagination.perPage = perPage
             },
             addJob() {
                 this.UpdateJob(this.job);
@@ -410,14 +421,14 @@
                 return this.filterJobs(this.searchTerm);
             },
             getItems: function () {
-                let current = this.pagination.currentPage * this.pagination.parPage;
-                let start = current - this.pagination.parPage;
+                let current = this.pagination.currentPage * this.pagination.perPage;
+                let start = current - this.pagination.perPage;
                 let jobs = this.filteredJobs;
                 if (jobs != null) return jobs.slice(start, current);
                 else return null;
             },
             getPageCount: function () {
-                return Math.ceil(this.filteredJobs.length / this.pagination.parPage);
+                return Math.ceil(this.filteredJobs.length / this.pagination.perPage);
             }
         }
     });

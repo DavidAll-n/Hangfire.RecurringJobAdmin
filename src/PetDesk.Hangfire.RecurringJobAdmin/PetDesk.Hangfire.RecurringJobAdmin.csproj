@@ -14,12 +14,11 @@
     
   <PropertyGroup>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-      <Authors>Brayan Mota</Authors>
-      <Copyright>Copyright © 2020-present Hangfire.Extension contributors</Copyright>
-      <NeutralLanguage>en</NeutralLanguage>
-      <PackageProjectUrl>https://github.com/bamotav/Hangfire.RecurringJobAdmin.git</PackageProjectUrl>
-      <RepositoryUrl>https://github.com/bamotav/Hangfire.RecurringJobAdmin.git</RepositoryUrl>
-      <Version>1.0.0</Version>
+      <Authors>PetDesk PetServices Team (based on work by Brayan Mota)</Authors>
+	  <NeutralLanguage>en</NeutralLanguage>
+      <PackageProjectUrl>https://github.com/DavidAll-n/PetDesk.Hangfire.RecurringJobAdmin</PackageProjectUrl>
+      <RepositoryUrl>https://github.com/DavidAll-n/PetDesk.Hangfire.RecurringJobAdmin</RepositoryUrl>
+      <Version>1.1.0</Version>
       <PackOnBuild>true</PackOnBuild>
       <Description>A dashboard to manage Hangfire's recurring jobs.</Description>
   </PropertyGroup>
