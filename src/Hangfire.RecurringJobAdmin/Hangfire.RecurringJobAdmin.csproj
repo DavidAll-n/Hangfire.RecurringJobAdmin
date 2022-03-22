@@ -14,9 +14,8 @@
     
   <PropertyGroup>
       <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-      <Authors>Brayan Mota</Authors>
-      <Copyright>Copyright © 2020-present Hangfire.Extension contributors</Copyright>
-      <NeutralLanguage>en</NeutralLanguage>
+      <Authors>PetDesk PetServices Team (based on work by Brayan Mota)</Authors>
+	  <NeutralLanguage>en</NeutralLanguage>
       <PackageProjectUrl>https://github.com/bamotav/Hangfire.RecurringJobAdmin.git</PackageProjectUrl>
       <RepositoryUrl>https://github.com/bamotav/Hangfire.RecurringJobAdmin.git</RepositoryUrl>
       <Version>1.0.0</Version>

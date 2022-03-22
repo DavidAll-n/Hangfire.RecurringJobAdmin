@@ -5,22 +5,62 @@
     display: flex;
 }
 
-#app > div {
-    width: 100%;
-}
+    #app > div {
+        width: 100%;
+    }
 
-#app > div > div {
-    margin-top: 30px !important;
-    /*width: 1626px !important*/
-}
+        #app > div > div {
+            margin-top: 30px !important;
+            /*width: 1626px !important*/
+        }
 
 .table {
     table-layout: fixed;
 }
 
-.table td {
-    word-wrap: break-word;
+    .table td {
+        word-wrap: break-word;
+    }
+
+.pagination-btn-group {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-bottom: 1rem;
 }
+
+    .pagination-btn-group > small {
+        margin-right: 1rem;
+    }
+
+    .pagination-btn-group .pagination-btn:first-of-type {
+        border-radius: 3px 0 0 3px;
+    }
+
+    .pagination-btn-group .pagination-btn:last-of-type {
+        border-radius: 0 3px 3px 0;
+    }
+
+.pagination-btn {
+    margin: 0;
+    margin-right: -1px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    line-height: 1.5;
+    color: #428bca;
+}
+
+    .pagination-btn:hover {
+        background-color: #e6e6e6;
+        border-color: #adadad;
+    }
+
+    .pagination-btn.selected {
+        background-color: #e6e6e6;
+        border-color: #adadad;
+        color: #333;
+    }
 
 /* Modal */
 .modal-mask {
@@ -81,10 +121,10 @@
     opacity: 0;
 }
 
-.modal-enter .modal-container, .modal-leave-active .modal-container {
-    -webkit-transform: scale(1.1);
-    transform: scale(1.1);
-}
+    .modal-enter .modal-container, .modal-leave-active .modal-container {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
 
 /* Customize check */
 .check-container {
@@ -101,30 +141,30 @@
     user-select: none;
 }
 
-.check-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
+    .check-container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
 
-.check-container .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-}
+    .check-container .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
 
-.check-container:hover input ~ .check-container .checkmark {
-    background-color: #ccc;
-}
+    .check-container:hover input ~ .check-container .checkmark {
+        background-color: #ccc;
+    }
 
-.check-container input:checked ~ .checkmark {
-    background-color: #2196F3;
-}
+    .check-container input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
 
 .checkmark:after {
     content: "";
@@ -157,17 +197,17 @@
     position: relative;
 }
 
-.cronContainer input[type=text] {
-    width: 96%;
-}
+    .cronContainer input[type=text] {
+        width: 96%;
+    }
 
-.cronContainer button {
-    position: absolute;
-    right: 0px;
-    height: 34px;
-}
+    .cronContainer button {
+        position: absolute;
+        right: 0px;
+        height: 34px;
+    }
 
-.cronContainer button:hover, .cronContainer button:active, .cronContainer button:focus {
-    height: 34px !important;
-    outline: none !important;
-}
+        .cronContainer button:hover, .cronContainer button:active, .cronContainer button:focus {
+            height: 34px !important;
+            outline: none !important;
+        }
