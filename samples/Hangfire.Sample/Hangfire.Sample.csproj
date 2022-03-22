@@ -28,8 +28,8 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\src\PetDesk.Hangfire.RecurringJobAdmin\PetDesk.Hangfire.RecurringJobAdmin.csproj" />
     <ProjectReference Include="..\Hangfire.Sample.Library\Hangfire.Sample.Library.csproj" />
-    <ProjectReference Include="..\..\src\Hangfire.RecurringJobAdmin\Hangfire.RecurringJobAdmin.csproj" />
   </ItemGroup>
 
 </Project>
